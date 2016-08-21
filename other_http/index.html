@@ -1,0 +1,29 @@
+<html>
+  <head>
+    <title>Other Child</title>
+    <style>
+      body {
+        margin: 0;
+        background: blue;
+      }
+      #content {
+        display: inline-block;
+      }
+    </style>
+  </head>
+  <body>
+    <div id='content'>
+      Hello World!
+    </div>
+    <script>
+      window.addEventListener('message', function(e) {
+        console.log('From: ' + e.origin);
+        var content = document.getElementById('content');
+        e.source.postMessage({
+          height: content.clientHeight,
+          width: content.clientWidth
+        }, e.origin);
+      });
+    </script>
+  </body>
+</html>

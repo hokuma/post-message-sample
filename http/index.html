@@ -1,0 +1,31 @@
+<html>
+  <head>
+    <title>Parent</title>
+  </head>
+  <body>
+    <iframe id='sslIframe' src='https://ssl.example.com/' style='width: 200px; height: 100px'></iframe>
+    <iframe id='otherIframe1' src='http://other.example.com/' style='width: 200px; height: 100px'></iframe>
+    <iframe id='otherIframe2' src='http://other.example.com/' style='width: 200px; height: 100px'></iframe>
+    <script>
+      var sslIrame = document.getElementById('sslIframe');
+      sslIframe.onload = function() {
+        sslIframe.contentWindow.postMessage('getSize', sslIrame.src);
+      };
+      var otherIframe1 = document.getElementById('otherIframe1');
+      otherIframe1.onload = function() {
+        otherIframe1.contentWindow.postMessage('getSize', sslIframe.src);
+      };
+      var otherIframe2 = document.getElementById('otherIframe2');
+      otherIframe2.onload = function() {
+        otherIframe2.contentWindow.postMessage('getSize', '*');
+      };
+      window.addEventListener('message', function(e) {
+        console.log('From: ' + e.origin);
+        if(e.origin === 'https://ssl.example.com') {
+          console.log('set iframe size');
+          sslIframe.setAttribute('style', 'width: ' + e.data.width + 'px; height: ' + e.data.height + 'px;');
+        }
+      });
+    </script>
+  </body>
+</html>
